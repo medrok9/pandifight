@@ -1,13 +1,13 @@
 const centerCircle = document.getElementById('center-circle');
 const dot = document.getElementById('dot');
 const healthBar = document.getElementById('health');
-const courier = document.getElementById('courier');
 
 let health = 100;
-let healing = false;
 const maxHealth = 100;
 const healRate = 0.5; // Heal per ms
 const damageRate = 0.1; // Damage per ms
+const healRadius = 50; // Radius of the center circle
+const dotSize = 30; // Size of the dot cursor
 
 function updateHealthBar() {
     healthBar.style.width = `${health}%`;
@@ -19,57 +19,30 @@ function updateHealthBar() {
     }
 }
 
-function moveCourier() {
-    const edge = ['top', 'bottom', 'left', 'right'];
-    const randomEdge = edge[Math.floor(Math.random() * edge.length)];
-    switch (randomEdge) {
-        case 'top':
-            courier.style.top = '0px';
-            courier.style.left = `${Math.random() * window.innerWidth}px`;
-            break;
-        case 'bottom':
-            courier.style.top = `${window.innerHeight - 20}px`;
-            courier.style.left = `${Math.random() * window.innerWidth}px`;
-            break;
-        case 'left':
-            courier.style.left = '0px';
-            courier.style.top = `${Math.random() * window.innerHeight}px`;
-            break;
-        case 'right':
-            courier.style.left = `${window.innerWidth - 20}px`;
-            courier.style.top = `${Math.random() * window.innerHeight}px`;
-            break;
-    }
-}
-
 function checkCollision() {
     const dotRect = dot.getBoundingClientRect();
     const circleRect = centerCircle.getBoundingClientRect();
 
-    const isInside = !(dotRect.right < circleRect.left ||
-                        dotRect.left > circleRect.right ||
-                        dotRect.bottom < circleRect.top ||
-                        dotRect.top > circleRect.bottom);
+    const dotCenterX = dotRect.left + dotRect.width / 2;
+    const dotCenterY = dotRect.top + dotRect.height / 2;
+    const circleCenterX = circleRect.left + circleRect.width / 2;
+    const circleCenterY = circleRect.top + circleRect.height / 2;
 
-    if (isInside) {
+    const distance = Math.sqrt(Math.pow(dotCenterX - circleCenterX, 2) + Math.pow(dotCenterY - circleCenterY, 2));
+
+    if (distance <= healRadius) {
         health = Math.min(maxHealth, health + healRate);
-        healing = true;
     } else {
         health -= damageRate;
-        healing = false;
     }
     updateHealthBar();
 }
 
 function moveDot(event) {
-    dot.style.left = `${event.clientX - 10}px`;
-    dot.style.top = `${event.clientY - 10}px`;
+    dot.style.left = `${event.clientX - dotSize / 2}px`;
+    dot.style.top = `${event.clientY - dotSize / 2}px`;
 }
 
 document.addEventListener('mousemove', moveDot);
-
-setInterval(() => {
-    moveCourier();
-}, 5000);
 
 setInterval(checkCollision, 50);
