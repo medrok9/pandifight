@@ -4,13 +4,13 @@ const healthBar = document.getElementById('health');
 
 const dotSize = 30; // Size of the dot cursor
 const healRadius = 50; // Radius of the center circle
-const pushStrength = 15; // Strength of the push effect
+const pushStrength = 7; // Adjusted strength of the push effect
 const flingDuration = 2000; // Duration to stay at the edge before normal control
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 2.5; // Heal per 50 ms
-const damageRate = 2.5; // Damage per 50 ms
+const healRate = 5; // Heal per 50 ms
+const damageRate = 5; // Damage per 50 ms
 
 let gameStarted = false;
 let collisionInterval;
@@ -81,7 +81,7 @@ function applyPushEffect() {
     const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
     if (distance < healRadius + dotSize / 2) {
-        // Calculate push vector with increased strength
+        // Calculate push vector with adjusted strength
         const pushX = (deltaX / distance) * pushStrength;
         const pushY = (deltaY / distance) * pushStrength;
 
@@ -106,7 +106,7 @@ function applyPushEffect() {
     }
 }
 
-// Move the dot to a random edge of the screen and keep it there
+// Move the dot to a random edge of the screen and keep it there for a while
 function flingToRandomEdge() {
     if (!gameStarted) return;
 
@@ -138,7 +138,7 @@ function flingToRandomEdge() {
     edgeFlingActive = true;
     edgeFlingEndTime = Date.now() + flingDuration;
 
-    // Resume normal movement after flingDuration
+    // Allow normal movement after flingDuration
     setTimeout(() => {
         edgeFlingActive = false;
     }, flingDuration);
