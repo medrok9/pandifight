@@ -4,9 +4,9 @@ const healthBar = document.getElementById('health');
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 2.5; // Heal per 50 ms
-const damageRate = 2.5; // Damage per 50 ms
-const healRadius = 30; // Radius of the center circle
+const healRate = 5; // Heal per 50 ms
+const damageRate = 5; // Damage per 50 ms
+const healRadius = 50; // Radius of the center circle (larger to match sizes)
 const dotSize = 30; // Size of the dot cursor
 const pushStrength = 2; // Strength of the push effect
 
@@ -73,7 +73,7 @@ function applyPushEffect() {
     const deltaY = dotCenterY - circleCenterY;
     const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
-    if (distance < healRadius) {
+    if (distance < healRadius + dotSize / 2) {
         // Calculate push vector
         const pushX = (deltaX / distance) * pushStrength;
         const pushY = (deltaY / distance) * pushStrength;
