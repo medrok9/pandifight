@@ -9,13 +9,14 @@ const flingInterval = 3000; // Interval for fling effect (3 seconds)
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 2.5; // Heal per 50 ms
-const damageRate = 2.5; // Damage per 50 ms
+const healRate = 5; // Heal per 50 ms
+const damageRate = 5; // Damage per 50 ms
 
 let gameStarted = false;
 let collisionInterval;
 let pushInterval;
 let flingIntervalID;
+let isFlinging = false; // Flag to prevent immediate movement blocking
 
 // Update health bar
 function updateHealthBar() {
@@ -56,7 +57,7 @@ function checkCollision() {
 
 // Move the dot based on mouse position
 function moveDot(event) {
-    if (!gameStarted) return; // Only move dot if game has started
+    if (!gameStarted || isFlinging) return; // Only move dot if game has started and it's not flinging
 
     dot.style.left = `${event.clientX - dotSize / 2}px`;
     dot.style.top = `${event.clientY - dotSize / 2}px`;
@@ -108,6 +109,8 @@ function applyPushEffect() {
 function flingToRandomEdge() {
     if (!gameStarted) return;
 
+    isFlinging = true; // Set flag to indicate flinging is active
+
     const containerWidth = window.innerWidth;
     const containerHeight = window.innerHeight;
     const edges = ['top', 'bottom', 'left', 'right'];
@@ -131,6 +134,11 @@ function flingToRandomEdge() {
             dot.style.top = `${Math.random() * (containerHeight - dotSize)}px`;
             break;
     }
+
+    // Allow movement after fling
+    setTimeout(() => {
+        isFlinging = false;
+    }, 100); // Short delay to ensure manual control is restored
 }
 
 // Start the game after a delay
