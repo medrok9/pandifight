@@ -4,20 +4,18 @@ const healthBar = document.getElementById('health');
 
 const dotSize = 30; // Size of the dot cursor
 const healRadius = 50; // Radius of the center circle
-const pushStrength = 7; // Adjusted strength of the push effect
-const flingDuration = 2000; // Duration to stay at the edge before normal control
+const pushStrength = 5; // Adjusted strength of the push effect
+const flingInterval = 3000; // Interval for fling effect (3 seconds)
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 5; // Heal per 50 ms
-const damageRate = 5; // Damage per 50 ms
+const healRate = 2.5; // Heal per 50 ms
+const damageRate = 2.5; // Damage per 50 ms
 
 let gameStarted = false;
 let collisionInterval;
 let pushInterval;
-let edgeFlinchInterval;
-let edgeFlingActive = false;
-let edgeFlingEndTime;
+let flingIntervalID;
 
 // Update health bar
 function updateHealthBar() {
@@ -30,7 +28,7 @@ function updateHealthBar() {
         updateHealthBar();
         clearInterval(collisionInterval); // Stop checking collision
         clearInterval(pushInterval); // Stop pushing effect
-        clearInterval(edgeFlinchInterval); // Stop edge fling
+        clearInterval(flingIntervalID); // Stop fling effect
     }
 }
 
@@ -58,7 +56,7 @@ function checkCollision() {
 
 // Move the dot based on mouse position
 function moveDot(event) {
-    if (!gameStarted || edgeFlingActive) return; // Only move dot if game has started and not in edge fling
+    if (!gameStarted) return; // Only move dot if game has started
 
     dot.style.left = `${event.clientX - dotSize / 2}px`;
     dot.style.top = `${event.clientY - dotSize / 2}px`;
@@ -66,7 +64,7 @@ function moveDot(event) {
 
 // Apply a smooth push effect to keep the dot outside of the center circle
 function applyPushEffect() {
-    if (!gameStarted || edgeFlingActive) return;
+    if (!gameStarted) return;
 
     const dotRect = dot.getBoundingClientRect();
     const circleRect = centerCircle.getBoundingClientRect();
@@ -106,7 +104,7 @@ function applyPushEffect() {
     }
 }
 
-// Move the dot to a random edge of the screen and keep it there for a while
+// Move the dot to a random edge of the screen
 function flingToRandomEdge() {
     if (!gameStarted) return;
 
@@ -133,15 +131,6 @@ function flingToRandomEdge() {
             dot.style.top = `${Math.random() * (containerHeight - dotSize)}px`;
             break;
     }
-
-    // Enable edge fling mode
-    edgeFlingActive = true;
-    edgeFlingEndTime = Date.now() + flingDuration;
-
-    // Allow normal movement after flingDuration
-    setTimeout(() => {
-        edgeFlingActive = false;
-    }, flingDuration);
 }
 
 // Start the game after a delay
@@ -156,7 +145,7 @@ function startGame() {
 
     collisionInterval = setInterval(checkCollision, 50); // Check collision every 50 ms
     pushInterval = setInterval(applyPushEffect, 10); // Apply push effect every 10 ms
-    edgeFlinchInterval = setInterval(flingToRandomEdge, 4000); // Fling to random edge every 4 seconds
+    flingIntervalID = setInterval(flingToRandomEdge, flingInterval); // Fling to random edge every 3-4 seconds
 }
 
 // Initialize game
