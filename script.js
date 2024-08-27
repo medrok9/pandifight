@@ -6,9 +6,9 @@ let health = 100;
 const maxHealth = 100;
 const healRate = 5; // Heal per 50 ms
 const damageRate = 5; // Damage per 50 ms
-const healRadius = 30; // Smaller radius of the center circle
+const healRadius = 30; // Radius of the center circle
 const dotSize = 30; // Size of the dot cursor
-const pushStrength = 2; // Reduced strength of the push effect
+const pushStrength = 2; // Strength of the push effect
 
 let gameStarted = false;
 let collisionInterval;
@@ -57,7 +57,7 @@ function moveDot(event) {
     dot.style.top = `${event.clientY - dotSize / 2}px`;
 }
 
-// Apply a gradual push effect to keep the dot outside of the center circle
+// Apply a smooth push effect to keep the dot outside of the center circle
 function applyPushEffect() {
     if (!gameStarted) return;
 
@@ -79,8 +79,11 @@ function applyPushEffect() {
         const pushY = (deltaY / distance) * pushStrength;
 
         // Update dot's position to apply the push effect
-        let newLeft = parseFloat(dot.style.left) - pushX;
-        let newTop = parseFloat(dot.style.top) - pushY;
+        let newLeft = parseFloat(dot.style.left) || 0;
+        let newTop = parseFloat(dot.style.top) || 0;
+
+        newLeft += pushX;
+        newTop += pushY;
 
         // Prevent the dot from moving out of bounds
         const containerWidth = window.innerWidth;
