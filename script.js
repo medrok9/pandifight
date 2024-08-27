@@ -4,8 +4,8 @@ const healthBar = document.getElementById('health');
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 20; // Heal per 50 ms
-const damageRate = 20; // Damage per 50 ms
+const healRate = 5; // Heal per 50 ms
+const damageRate = 5; // Damage per 50 ms
 const healRadius = 50; // Radius of the center circle
 const dotSize = 30; // Size of the dot cursor
 const pushStrength = 5; // Strength of the push effect
@@ -42,7 +42,9 @@ function checkCollision() {
     const circleCenterX = circleRect.left + circleRect.width / 2;
     const circleCenterY = circleRect.top + circleRect.height / 2;
 
-    const distance = Math.sqrt(Math.pow(dotCenterX - circleCenterX, 2) + Math.pow(dotCenterY - circleCenterY, 2));
+    const deltaX = dotCenterX - circleCenterX;
+    const deltaY = dotCenterY - circleCenterY;
+    const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
     if (distance <= healRadius) {
         health += healRate;
@@ -59,7 +61,7 @@ function moveDot(event) {
     dot.style.top = `${event.clientY - dotSize / 2}px`;
 }
 
-// Apply gentle push effect to the cursor
+// Apply push effect to the cursor
 function applyPushEffect() {
     if (!gameStarted) return;
 
@@ -90,23 +92,25 @@ function moveCourier() {
 
     const edges = ['top', 'bottom', 'left', 'right'];
     const edge = edges[Math.floor(Math.random() * edges.length)];
+    const containerWidth = window.innerWidth;
+    const containerHeight = window.innerHeight;
 
     switch (edge) {
         case 'top':
             dot.style.top = `0px`;
-            dot.style.left = `${Math.random() * (window.innerWidth - dotSize)}px`;
+            dot.style.left = `${Math.random() * (containerWidth - dotSize)}px`;
             break;
         case 'bottom':
-            dot.style.top = `${window.innerHeight - dotSize}px`;
-            dot.style.left = `${Math.random() * (window.innerWidth - dotSize)}px`;
+            dot.style.top = `${containerHeight - dotSize}px`;
+            dot.style.left = `${Math.random() * (containerWidth - dotSize)}px`;
             break;
         case 'left':
             dot.style.left = `0px`;
-            dot.style.top = `${Math.random() * (window.innerHeight - dotSize)}px`;
+            dot.style.top = `${Math.random() * (containerHeight - dotSize)}px`;
             break;
         case 'right':
-            dot.style.left = `${window.innerWidth - dotSize}px`;
-            dot.style.top = `${Math.random() * (window.innerHeight - dotSize)}px`;
+            dot.style.left = `${containerWidth - dotSize}px`;
+            dot.style.top = `${Math.random() * (containerHeight - dotSize)}px`;
             break;
     }
 }
