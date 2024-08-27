@@ -6,7 +6,7 @@ const dotSize = 30; // Size of the dot cursor
 const healRadius = 50; // Radius of the center circle
 const pushStrength = 5; // Strength of the push effect
 const flingInterval = 3000; // Interval for fling effect (3 seconds)
-const gameDuration = 50000; // Game duration: 1 minute 30 seconds in milliseconds
+const gameDuration = 30000; // Game duration: 1 minute 30 seconds in milliseconds
 
 let health = 100;
 const maxHealth = 100;
