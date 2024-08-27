@@ -8,11 +8,12 @@ const healRate = 5; // Heal per 50 ms
 const damageRate = 5; // Damage per 50 ms
 const healRadius = 50; // Radius of the center circle
 const dotSize = 30; // Size of the dot cursor
-const pushStrength = 10; // Increased strength of the push effect
+const pushStrength = 10; // Strength of the push effect
 
 let gameStarted = false;
 let collisionInterval;
 let pushInterval;
+let edgeFlinchInterval;
 
 // Update health bar
 function updateHealthBar() {
@@ -25,6 +26,7 @@ function updateHealthBar() {
         updateHealthBar();
         clearInterval(collisionInterval); // Stop checking collision
         clearInterval(pushInterval); // Stop pushing effect
+        clearInterval(edgeFlinchInterval); // Stop edge flinch
     }
 }
 
@@ -99,11 +101,41 @@ function applyPushEffect() {
     }
 }
 
+// Move the dot to a random edge of the screen
+function flingToRandomEdge() {
+    if (!gameStarted) return;
+
+    const containerWidth = window.innerWidth;
+    const containerHeight = window.innerHeight;
+    const edges = ['top', 'bottom', 'left', 'right'];
+    const edge = edges[Math.floor(Math.random() * edges.length)];
+
+    switch (edge) {
+        case 'top':
+            dot.style.top = `0px`;
+            dot.style.left = `${Math.random() * (containerWidth - dotSize)}px`;
+            break;
+        case 'bottom':
+            dot.style.top = `${containerHeight - dotSize}px`;
+            dot.style.left = `${Math.random() * (containerWidth - dotSize)}px`;
+            break;
+        case 'left':
+            dot.style.left = `0px`;
+            dot.style.top = `${Math.random() * (containerHeight - dotSize)}px`;
+            break;
+        case 'right':
+            dot.style.left = `${containerWidth - dotSize}px`;
+            dot.style.top = `${Math.random() * (containerHeight - dotSize)}px`;
+            break;
+    }
+}
+
 // Start the game after a delay
 function startGame() {
     gameStarted = true;
     collisionInterval = setInterval(checkCollision, 50); // Check collision every 50 ms
     pushInterval = setInterval(applyPushEffect, 10); // Apply push effect every 10 ms
+    edgeFlinchInterval = setInterval(flingToRandomEdge, Math.random() * 1000 + 3000); // Fling to random edge every 3-4 seconds
 }
 
 // Initialize game
