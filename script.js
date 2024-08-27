@@ -6,6 +6,7 @@ const dotSize = 30; // Size of the dot cursor
 const healRadius = 50; // Radius of the center circle
 const pushStrength = 5; // Strength of the push effect
 const flingInterval = 3000; // Interval for fling effect (3 seconds)
+const gameDuration = 90 * 1000; // Game duration: 1 minute 30 seconds in milliseconds
 
 let health = 100;
 const maxHealth = 100;
@@ -16,6 +17,7 @@ let gameStarted = false;
 let collisionInterval;
 let pushInterval;
 let flingIntervalID;
+let gameTimeoutID;
 let isFlinging = false; // Flag to indicate flinging state
 
 // Update health bar
@@ -153,8 +155,22 @@ function startGame() {
 
     collisionInterval = setInterval(checkCollision, 50); // Check collision every 50 ms
     pushInterval = setInterval(applyPushEffect, 10); // Apply push effect every 10 ms
-    flingIntervalID = setInterval(flingToRandomEdge, flingInterval); // Fling to random edge every 3-4 seconds
+    flingIntervalID = setInterval(flingToRandomEdge, flingInterval); // Fling to random edge every 3 seconds
+
+    // Set a timeout for game duration
+    gameTimeoutID = setTimeout(() => {
+        // Send an internal message when time is up
+        window.postMessage('TIME_UP', '*');
+    }, gameDuration);
 }
+
+// Listen for internal messages
+window.addEventListener('message', (event) => {
+    if (event.data === 'TIME_UP') {
+        // Redirect to example domain when the time is up
+        window.location.href = 'https://example.com';
+    }
+});
 
 // Initialize game
 document.addEventListener('mousemove', moveDot);
