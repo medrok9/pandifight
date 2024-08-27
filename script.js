@@ -5,6 +5,7 @@ const healthBar = document.getElementById('health');
 const dotSize = 30; // Size of the dot cursor
 const healRadius = 50; // Radius of the center circle
 const pushStrength = 15; // Strength of the push effect
+const flingDuration = 2000; // Duration to stay at the edge before normal control
 
 let health = 100;
 const maxHealth = 100;
@@ -15,6 +16,8 @@ let gameStarted = false;
 let collisionInterval;
 let pushInterval;
 let edgeFlinchInterval;
+let edgeFlingActive = false;
+let edgeFlingEndTime;
 
 // Update health bar
 function updateHealthBar() {
@@ -27,7 +30,7 @@ function updateHealthBar() {
         updateHealthBar();
         clearInterval(collisionInterval); // Stop checking collision
         clearInterval(pushInterval); // Stop pushing effect
-        clearInterval(edgeFlinchInterval); // Stop edge flinch
+        clearInterval(edgeFlinchInterval); // Stop edge fling
     }
 }
 
@@ -55,14 +58,15 @@ function checkCollision() {
 
 // Move the dot based on mouse position
 function moveDot(event) {
-    if (!gameStarted) return; // Only move dot if game has started
+    if (!gameStarted || edgeFlingActive) return; // Only move dot if game has started and not in edge fling
+
     dot.style.left = `${event.clientX - dotSize / 2}px`;
     dot.style.top = `${event.clientY - dotSize / 2}px`;
 }
 
 // Apply a smooth push effect to keep the dot outside of the center circle
 function applyPushEffect() {
-    if (!gameStarted) return;
+    if (!gameStarted || edgeFlingActive) return;
 
     const dotRect = dot.getBoundingClientRect();
     const circleRect = centerCircle.getBoundingClientRect();
@@ -102,7 +106,7 @@ function applyPushEffect() {
     }
 }
 
-// Move the dot to a random edge of the screen
+// Move the dot to a random edge of the screen and keep it there
 function flingToRandomEdge() {
     if (!gameStarted) return;
 
@@ -129,6 +133,15 @@ function flingToRandomEdge() {
             dot.style.top = `${Math.random() * (containerHeight - dotSize)}px`;
             break;
     }
+
+    // Enable edge fling mode
+    edgeFlingActive = true;
+    edgeFlingEndTime = Date.now() + flingDuration;
+
+    // Resume normal movement after flingDuration
+    setTimeout(() => {
+        edgeFlingActive = false;
+    }, flingDuration);
 }
 
 // Start the game after a delay
@@ -143,7 +156,7 @@ function startGame() {
 
     collisionInterval = setInterval(checkCollision, 50); // Check collision every 50 ms
     pushInterval = setInterval(applyPushEffect, 10); // Apply push effect every 10 ms
-    edgeFlinchInterval = setInterval(flingToRandomEdge, Math.random() * 1000 + 3000); // Fling to random edge every 3-4 seconds
+    edgeFlinchInterval = setInterval(flingToRandomEdge, 4000); // Fling to random edge every 4 seconds
 }
 
 // Initialize game
