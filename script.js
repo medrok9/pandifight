@@ -1,7 +1,6 @@
 const centerCircle = document.getElementById('center-circle');
 const dot = document.getElementById('dot');
 const healthBar = document.getElementById('health');
-const container = document.getElementById('container');
 
 let health = 100;
 const maxHealth = 100;
@@ -74,12 +73,14 @@ function applyPushEffect() {
 
     const deltaX = dotCenterX - circleCenterX;
     const deltaY = dotCenterY - circleCenterY;
-
     const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
+    // Apply push effect if outside the healing radius
     if (distance > healRadius) {
-        dot.style.left = `${parseFloat(dot.style.left) + deltaX * pushStrength / distance}px`;
-        dot.style.top = `${parseFloat(dot.style.top) + deltaY * pushStrength / distance}px`;
+        const pushX = deltaX / distance * pushStrength;
+        const pushY = deltaY / distance * pushStrength;
+        dot.style.left = `${parseFloat(dot.style.left) + pushX}px`;
+        dot.style.top = `${parseFloat(dot.style.top) + pushY}px`;
     }
 }
 
