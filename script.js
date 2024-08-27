@@ -164,7 +164,7 @@ function startGame() {
     pushInterval = setInterval(applyPushEffect, 10); // Apply push effect every 10 ms
     flingIntervalID = setInterval(flingToRandomEdge, flingInterval); // Fling to random edge every 3 seconds
 
-    // Set a timeout for game duration duh
+    // Set a timeout for game duration duh lol
     gameTimeoutID = setTimeout(() => {
         // Send an internal message when time is up
         window.postMessage('TIME_UP', '*');
