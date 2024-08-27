@@ -9,6 +9,9 @@ const damageRate = 0.1; // Damage per ms
 const healRadius = 50; // Radius of the center circle
 const dotSize = 30; // Size of the dot cursor
 
+let gameStarted = false;
+
+// Update health bar
 function updateHealthBar() {
     healthBar.style.width = `${health}%`;
     if (health <= 0) {
@@ -19,6 +22,7 @@ function updateHealthBar() {
     }
 }
 
+// Check collision between dot and center circle
 function checkCollision() {
     const dotRect = dot.getBoundingClientRect();
     const circleRect = centerCircle.getBoundingClientRect();
@@ -38,11 +42,21 @@ function checkCollision() {
     updateHealthBar();
 }
 
+// Move the dot based on mouse position
 function moveDot(event) {
+    if (!gameStarted) return; // Only move dot if game has started
     dot.style.left = `${event.clientX - dotSize / 2}px`;
     dot.style.top = `${event.clientY - dotSize / 2}px`;
 }
 
+// Start the game after a delay
+function startGame() {
+    gameStarted = true;
+    setInterval(checkCollision, 50); // Check collision periodically
+}
+
+// Initialize game
 document.addEventListener('mousemove', moveDot);
 
-setInterval(checkCollision, 50);
+// Start the game 5 seconds after the page loads
+setTimeout(startGame, 5000);
