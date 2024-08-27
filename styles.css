@@ -27,10 +27,10 @@ body {
     position: absolute;
     top: 10px;
     left: 50%;
-    width: 100px;
-    height: 10px;
+    width: 200px; /* Increased size for better visibility */
+    height: 20px; /* Increased height for better visibility */
     background: #333;
-    border-radius: 5px;
+    border-radius: 10px;
     transform: translateX(-50%);
 }
 
@@ -38,13 +38,13 @@ body {
     height: 100%;
     width: 100%;
     background: #f00;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 #dot {
     position: absolute;
-    width: 30px; /* Increase size of cursor dot */
-    height: 30px; /* Increase size of cursor dot */
+    width: 30px; /* Size of cursor dot */
+    height: 30px; /* Size of cursor dot */
     background: #ff0;
     border-radius: 50%;
     pointer-events: none;
