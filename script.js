@@ -2,13 +2,14 @@ const centerCircle = document.getElementById('center-circle');
 const dot = document.getElementById('dot');
 const healthBar = document.getElementById('health');
 
+const dotSize = 30; // Size of the dot cursor
+const healRadius = 50; // Radius of the center circle
+const pushStrength = 15; // Strength of the push effect
+
 let health = 100;
 const maxHealth = 100;
 const healRate = 5; // Heal per 50 ms
 const damageRate = 5; // Damage per 50 ms
-const healRadius = 50; // Radius of the center circle
-const dotSize = 30; // Size of the dot cursor
-const pushStrength = 15; // Increased strength of the push effect
 
 let gameStarted = false;
 let collisionInterval;
@@ -133,6 +134,13 @@ function flingToRandomEdge() {
 // Start the game after a delay
 function startGame() {
     gameStarted = true;
+
+    // Initialize dot position in the center of the screen
+    const containerWidth = window.innerWidth;
+    const containerHeight = window.innerHeight;
+    dot.style.left = `${(containerWidth - dotSize) / 2}px`;
+    dot.style.top = `${(containerHeight - dotSize) / 2}px`;
+
     collisionInterval = setInterval(checkCollision, 50); // Check collision every 50 ms
     pushInterval = setInterval(applyPushEffect, 10); // Apply push effect every 10 ms
     edgeFlinchInterval = setInterval(flingToRandomEdge, Math.random() * 1000 + 3000); // Fling to random edge every 3-4 seconds
