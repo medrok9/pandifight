@@ -4,8 +4,8 @@ const healthBar = document.getElementById('health');
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 5; // Heal per 50 ms
-const damageRate = 5; // Damage per 50 ms
+const healRate = 2.5; // Heal per 50 ms
+const damageRate = 2.5; // Damage per 50 ms
 const healRadius = 30; // Radius of the center circle
 const dotSize = 30; // Size of the dot cursor
 const pushStrength = 2; // Strength of the push effect
