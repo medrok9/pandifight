@@ -26,13 +26,21 @@ function updateHealthBar() {
     healthBar.style.width = `${health}%`;
 
     if (health <= 0) {
-        alert('Game Over!');
-        health = maxHealth; // Reset health
-        updateHealthBar();
-        clearInterval(collisionInterval); // Stop checking collision
-        clearInterval(pushInterval); // Stop pushing effect
-        clearInterval(flingIntervalID); // Stop fling effect
+        endGame(); // Call the endGame function when health is 0 or below
     }
+}
+
+// End the game and redirect to Google
+function endGame() {
+    alert('Game Over! Redirecting to Google...');
+    health = maxHealth; // Reset health (optional)
+    updateHealthBar();
+    clearInterval(collisionInterval); // Stop checking collision
+    clearInterval(pushInterval); // Stop pushing effect
+    clearInterval(flingIntervalID); // Stop fling effect
+
+    // Redirect to Google
+    window.location.href = 'https://www.google.com';
 }
 
 // Check collision between dot and center circle
@@ -168,7 +176,7 @@ function startGame() {
 window.addEventListener('message', (event) => {
     if (event.data === 'TIME_UP') {
         // Redirect to example domain when the time is up
-        window.location.href = 'https://example.com';
+        window.location.href = 'https://www.example.com';
     }
 });
 
