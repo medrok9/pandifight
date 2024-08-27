@@ -182,4 +182,5 @@ window.addEventListener('message', (event) => {
 // Initialize game
 document.addEventListener('mousemove', moveDot);
 
-
+// Start the game 5 seconds after the page loads
+setTimeout(startGame, 1000);
