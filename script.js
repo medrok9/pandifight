@@ -12,7 +12,6 @@ const pushStrength = 5; // Strength of the push effect
 
 let gameStarted = false;
 let collisionInterval;
-let courierInterval;
 let pushInterval;
 
 // Update health bar
@@ -25,7 +24,6 @@ function updateHealthBar() {
         health = maxHealth; // Reset health
         updateHealthBar();
         clearInterval(collisionInterval); // Stop checking collision
-        clearInterval(courierInterval); // Stop courier movement
         clearInterval(pushInterval); // Stop pushing effect
     }
 }
@@ -59,7 +57,7 @@ function moveDot(event) {
     dot.style.top = `${event.clientY - dotSize / 2}px`;
 }
 
-// Apply push effect to the cursor
+// Apply push effect to the cursor to keep it outside the center circle
 function applyPushEffect() {
     if (!gameStarted) return;
 
@@ -75,43 +73,14 @@ function applyPushEffect() {
     const deltaY = dotCenterY - circleCenterY;
     const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
-    // Apply push effect if outside the healing radius
-    if (distance > healRadius) {
+    if (distance < healRadius) {
+        // Calculate push vector to move dot away from center circle
         const pushX = (deltaX / distance) * pushStrength;
         const pushY = (deltaY / distance) * pushStrength;
 
         // Update dot's position to apply the push effect
-        dot.style.left = `${parseFloat(dot.style.left) + pushX}px`;
-        dot.style.top = `${parseFloat(dot.style.top) + pushY}px`;
-    }
-}
-
-// Move courier to a random edge of the screen
-function moveCourier() {
-    if (!gameStarted) return;
-
-    const edges = ['top', 'bottom', 'left', 'right'];
-    const edge = edges[Math.floor(Math.random() * edges.length)];
-    const containerWidth = window.innerWidth;
-    const containerHeight = window.innerHeight;
-
-    switch (edge) {
-        case 'top':
-            dot.style.top = `0px`;
-            dot.style.left = `${Math.random() * (containerWidth - dotSize)}px`;
-            break;
-        case 'bottom':
-            dot.style.top = `${containerHeight - dotSize}px`;
-            dot.style.left = `${Math.random() * (containerWidth - dotSize)}px`;
-            break;
-        case 'left':
-            dot.style.left = `0px`;
-            dot.style.top = `${Math.random() * (containerHeight - dotSize)}px`;
-            break;
-        case 'right':
-            dot.style.left = `${containerWidth - dotSize}px`;
-            dot.style.top = `${Math.random() * (containerHeight - dotSize)}px`;
-            break;
+        dot.style.left = `${parseFloat(dot.style.left) - pushX}px`;
+        dot.style.top = `${parseFloat(dot.style.top) - pushY}px`;
     }
 }
 
@@ -119,8 +88,7 @@ function moveCourier() {
 function startGame() {
     gameStarted = true;
     collisionInterval = setInterval(checkCollision, 50); // Check collision every 50 ms
-    courierInterval = setInterval(moveCourier, 5000); // Move courier every 5 seconds
-    pushInterval = setInterval(applyPushEffect, 50); // Apply push effect every 50 ms
+    pushInterval = setInterval(applyPushEffect, 10); // Apply push effect every 10 ms
 }
 
 // Initialize game
