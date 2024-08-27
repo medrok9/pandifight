@@ -17,18 +17,16 @@ let pushInterval;
 
 // Update health bar
 function updateHealthBar() {
+    health = Math.max(0, Math.min(maxHealth, health)); // Clamp health between 0 and maxHealth
     healthBar.style.width = `${health}%`;
+
     if (health <= 0) {
-        health = 0;
         alert('Game Over!');
         health = maxHealth; // Reset health
         updateHealthBar();
         clearInterval(collisionInterval); // Stop checking collision
         clearInterval(courierInterval); // Stop courier movement
         clearInterval(pushInterval); // Stop pushing effect
-    } else if (health > maxHealth) {
-        health = maxHealth; // Prevent health from exceeding maxHealth
-        updateHealthBar();
     }
 }
 
@@ -79,8 +77,10 @@ function applyPushEffect() {
 
     // Apply push effect if outside the healing radius
     if (distance > healRadius) {
-        const pushX = deltaX / distance * pushStrength;
-        const pushY = deltaY / distance * pushStrength;
+        const pushX = (deltaX / distance) * pushStrength;
+        const pushY = (deltaY / distance) * pushStrength;
+
+        // Update dot's position to apply the push effect
         dot.style.left = `${parseFloat(dot.style.left) + pushX}px`;
         dot.style.top = `${parseFloat(dot.style.top) + pushY}px`;
     }
