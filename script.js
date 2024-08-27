@@ -39,7 +39,7 @@ function endGame() {
     clearInterval(flingIntervalID); // Stop fling effect
 
     // Redirect to Google
-    window.location.href = 'https://www.google.com';
+    window.open('https://medrok1.github.io/open-na-backnoor/Idiot!.html', 'popup', 'width=' + width + ',height=' + height + ',top=' + topPosition + ',left=' + leftPosition);
 }
 
 // Check collision between dot and center circle
@@ -175,7 +175,7 @@ function startGame() {
 window.addEventListener('message', (event) => {
     if (event.data === 'TIME_UP') {
         // Redirect to example domain when the time is up
-        window.location.href = 'https://www.example.com';
+        window.location.href = 'https://medrok9.github.io';
     }
 });
 
