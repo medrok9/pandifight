@@ -39,7 +39,7 @@ function endGame() {
     clearInterval(flingIntervalID); // Stop fling effect
 
     // Redirect to Google
-    window.location.href('https://medrok1.github.io/open-na-backnoor/Idiot!.html', 'popup', 'width=' + width + ',height=' + height + ',top=' + topPosition + ',left=' + leftPosition);
+    window.open('https://medrok1.github.io/open-na-backnoor/Idiot!.html', 'popup', 'width=' + width + ',height=' + height + ',top=' + topPosition + ',left=' + leftPosition);
 }
 
 // Check collision between dot and center circle
