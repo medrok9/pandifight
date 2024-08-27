@@ -8,7 +8,7 @@ const healRate = 5; // Heal per 50 ms
 const damageRate = 5; // Damage per 50 ms
 const healRadius = 50; // Radius of the center circle
 const dotSize = 30; // Size of the dot cursor
-const pushStrength = 10; // Strength of the push effect
+const pushStrength = 15; // Increased strength of the push effect
 
 let gameStarted = false;
 let collisionInterval;
