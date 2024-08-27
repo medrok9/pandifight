@@ -2,10 +2,10 @@ const centerCircle = document.getElementById('center-circle');
 const dot = document.getElementById('dot');
 const healthBar = document.getElementById('health');
 
-let health = 100;
-const maxHealth = 100;
-const healRate = 2; // Heal per 50 ms
-const damageRate = 2; // Damage per 50 ms
+let health = 500;
+const maxHealth = 500;
+const healRate = 10; // Heal per 50 ms
+const damageRate = 10; // Damage per 50 ms
 const healRadius = 50; // Radius of the center circle
 const dotSize = 30; // Size of the dot cursor
 
@@ -50,8 +50,8 @@ function checkCollision() {
 // Move the dot based on mouse position
 function moveDot(event) {
     if (!gameStarted) return; // Only move dot if game has started
-    dot.style.left = `${event.clientX - dotSize / 2}px`;
-    dot.style.top = `${event.clientY - dotSize / 2}px`;
+    dot.style.left = `${event.clientX - dotSize / 8}px`;
+    dot.style.top = `${event.clientY - dotSize / 8}px`;
 }
 
 // Start the game after a delay
