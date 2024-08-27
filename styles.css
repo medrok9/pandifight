@@ -45,7 +45,7 @@ body {
     position: absolute;
     width: 30px; /* Size of cursor dot */
     height: 30px; /* Size of cursor dot */
-    background: rgb(255, 255, 255);
+    background: rgb(255, 255, 254);
     border-radius: 50%;
     pointer-events: none;
 }
