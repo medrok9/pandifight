@@ -6,9 +6,9 @@ let health = 100;
 const maxHealth = 100;
 const healRate = 5; // Heal per 50 ms
 const damageRate = 5; // Damage per 50 ms
-const healRadius = 50; // Radius of the center circle
+const healRadius = 30; // Smaller radius of the center circle
 const dotSize = 30; // Size of the dot cursor
-const pushStrength = 5; // Strength of the push effect
+const pushStrength = 2; // Reduced strength of the push effect
 
 let gameStarted = false;
 let collisionInterval;
@@ -57,7 +57,7 @@ function moveDot(event) {
     dot.style.top = `${event.clientY - dotSize / 2}px`;
 }
 
-// Apply push effect to the cursor to keep it outside the center circle
+// Apply a gradual push effect to keep the dot outside of the center circle
 function applyPushEffect() {
     if (!gameStarted) return;
 
@@ -74,13 +74,25 @@ function applyPushEffect() {
     const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
     if (distance < healRadius) {
-        // Calculate push vector to move dot away from center circle
+        // Calculate push vector
         const pushX = (deltaX / distance) * pushStrength;
         const pushY = (deltaY / distance) * pushStrength;
 
         // Update dot's position to apply the push effect
-        dot.style.left = `${parseFloat(dot.style.left) - pushX}px`;
-        dot.style.top = `${parseFloat(dot.style.top) - pushY}px`;
+        let newLeft = parseFloat(dot.style.left) - pushX;
+        let newTop = parseFloat(dot.style.top) - pushY;
+
+        // Prevent the dot from moving out of bounds
+        const containerWidth = window.innerWidth;
+        const containerHeight = window.innerHeight;
+
+        if (newLeft < 0) newLeft = 0;
+        if (newTop < 0) newTop = 0;
+        if (newLeft + dotSize > containerWidth) newLeft = containerWidth - dotSize;
+        if (newTop + dotSize > containerHeight) newTop = containerHeight - dotSize;
+
+        dot.style.left = `${newLeft}px`;
+        dot.style.top = `${newTop}px`;
     }
 }
 
