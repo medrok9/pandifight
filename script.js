@@ -4,12 +4,13 @@ const healthBar = document.getElementById('health');
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 0.5; // Heal per ms
-const damageRate = 0.1; // Damage per ms
+const healRate = 2; // Heal per 50 ms
+const damageRate = 2; // Damage per 50 ms
 const healRadius = 50; // Radius of the center circle
 const dotSize = 30; // Size of the dot cursor
 
 let gameStarted = false;
+let collisionInterval;
 
 // Update health bar
 function updateHealthBar() {
@@ -17,7 +18,11 @@ function updateHealthBar() {
     if (health <= 0) {
         health = 0;
         alert('Game Over!');
-        health = maxHealth; // Reset for replay
+        health = maxHealth; // Reset health
+        updateHealthBar();
+        clearInterval(collisionInterval); // Stop checking collision
+    } else if (health > maxHealth) {
+        health = maxHealth; // Prevent health from exceeding maxHealth
         updateHealthBar();
     }
 }
@@ -35,7 +40,7 @@ function checkCollision() {
     const distance = Math.sqrt(Math.pow(dotCenterX - circleCenterX, 2) + Math.pow(dotCenterY - circleCenterY, 2));
 
     if (distance <= healRadius) {
-        health = Math.min(maxHealth, health + healRate);
+        health += healRate;
     } else {
         health -= damageRate;
     }
@@ -52,7 +57,7 @@ function moveDot(event) {
 // Start the game after a delay
 function startGame() {
     gameStarted = true;
-    setInterval(checkCollision, 50); // Check collision periodically
+    collisionInterval = setInterval(checkCollision, 50); // Check collision every 50 ms
 }
 
 // Initialize game
