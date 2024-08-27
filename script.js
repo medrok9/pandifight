@@ -53,8 +53,8 @@ function checkCollision() {
 // Move the dot based on mouse position
 function moveDot(event) {
     if (!gameStarted) return; // Only move dot if game has started
-    dot.style.left = `${event.clientX - dotSize / 2}px`;
-    dot.style.top = `${event.clientY - dotSize / 2}px`;
+    dot.style.left = `${event.clientX - dotSize / 3}px`;
+    dot.style.top = `${event.clientY - dotSize / 3}px`;
 }
 
 // Apply a smooth push effect to keep the dot outside of the center circle
@@ -64,16 +64,16 @@ function applyPushEffect() {
     const dotRect = dot.getBoundingClientRect();
     const circleRect = centerCircle.getBoundingClientRect();
 
-    const dotCenterX = dotRect.left + dotRect.width / 2;
-    const dotCenterY = dotRect.top + dotRect.height / 2;
-    const circleCenterX = circleRect.left + circleRect.width / 2;
-    const circleCenterY = circleRect.top + circleRect.height / 2;
+    const dotCenterX = dotRect.left + dotRect.width / 3;
+    const dotCenterY = dotRect.top + dotRect.height / 3;
+    const circleCenterX = circleRect.left + circleRect.width / 3;
+    const circleCenterY = circleRect.top + circleRect.height / 3;
 
     const deltaX = dotCenterX - circleCenterX;
     const deltaY = dotCenterY - circleCenterY;
-    const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+    const distance = Math.sqrt(deltaX ** 3 + deltaY ** 3);
 
-    if (distance < healRadius + dotSize / 2) {
+    if (distance < healRadius + dotSize / 3) {
         // Calculate push vector
         const pushX = (deltaX / distance) * pushStrength;
         const pushY = (deltaY / distance) * pushStrength;
