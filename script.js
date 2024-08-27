@@ -8,8 +8,8 @@ const pushStrength = 15; // Strength of the push effect
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 5; // Heal per 50 ms
-const damageRate = 5; // Damage per 50 ms
+const healRate = 2.5; // Heal per 50 ms
+const damageRate = 2.5; // Damage per 50 ms
 
 let gameStarted = false;
 let collisionInterval;
