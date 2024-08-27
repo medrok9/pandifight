@@ -16,7 +16,7 @@ let gameStarted = false;
 let collisionInterval;
 let pushInterval;
 let flingIntervalID;
-let isFlinging = false; // Flag to prevent immediate movement blocking
+let isFlinging = false; // Flag to indicate flinging state
 
 // Update health bar
 function updateHealthBar() {
@@ -57,10 +57,7 @@ function checkCollision() {
 
 // Move the dot based on mouse position
 function moveDot(event) {
-    if (!gameStarted) return; // Only move dot if game has started
-
-    // Check if the dot is currently flinging
-    if (isFlinging) return; 
+    if (!gameStarted || isFlinging) return; // Only move dot if game has started and it's not flinging
 
     dot.style.left = `${event.clientX - dotSize / 2}px`;
     dot.style.top = `${event.clientY - dotSize / 2}px`;
@@ -68,7 +65,7 @@ function moveDot(event) {
 
 // Apply a smooth push effect to keep the dot outside of the center circle
 function applyPushEffect() {
-    if (!gameStarted || isFlinging) return;
+    if (!gameStarted || isFlinging) return; // Skip push effect if flinging
 
     const dotRect = dot.getBoundingClientRect();
     const circleRect = centerCircle.getBoundingClientRect();
@@ -141,7 +138,7 @@ function flingToRandomEdge() {
     // Allow movement after fling
     setTimeout(() => {
         isFlinging = false;
-    }, 100); // Short delay to ensure manual control is restored
+    }, 50); // Short delay to ensure manual control is restored
 }
 
 // Start the game after a delay
