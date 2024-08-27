@@ -10,7 +10,7 @@ const gameDuration = 90 * 1000; // Game duration: 1 minute 30 seconds in millise
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 5; // Heal per 50 ms
+const healRate = 6; // Heal per 50 ms
 const damageRate = 5; // Damage per 50 ms
 
 let gameStarted = false;
@@ -32,7 +32,6 @@ function updateHealthBar() {
 
 // End the game and redirect to Google
 function endGame() {
-    alert('Game Over! Redirecting to Google...');
     health = maxHealth; // Reset health (optional)
     updateHealthBar();
     clearInterval(collisionInterval); // Stop checking collision
@@ -183,5 +182,4 @@ window.addEventListener('message', (event) => {
 // Initialize game
 document.addEventListener('mousemove', moveDot);
 
-// Start the game 5 seconds after the page loads
-setTimeout(startGame, 5000);
+
