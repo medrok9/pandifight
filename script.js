@@ -4,7 +4,7 @@ const healthBar = document.getElementById('health');
 
 const dotSize = 30; // Size of the dot cursor
 const healRadius = 50; // Radius of the center circle
-const pushStrength = 5; // Adjusted strength of the push effect
+const pushStrength = 5; // Strength of the push effect
 const flingInterval = 3000; // Interval for fling effect (3 seconds)
 
 let health = 100;
@@ -57,7 +57,10 @@ function checkCollision() {
 
 // Move the dot based on mouse position
 function moveDot(event) {
-    if (!gameStarted || isFlinging) return; // Only move dot if game has started and it's not flinging
+    if (!gameStarted) return; // Only move dot if game has started
+
+    // Check if the dot is currently flinging
+    if (isFlinging) return; 
 
     dot.style.left = `${event.clientX - dotSize / 2}px`;
     dot.style.top = `${event.clientY - dotSize / 2}px`;
@@ -65,7 +68,7 @@ function moveDot(event) {
 
 // Apply a smooth push effect to keep the dot outside of the center circle
 function applyPushEffect() {
-    if (!gameStarted) return;
+    if (!gameStarted || isFlinging) return;
 
     const dotRect = dot.getBoundingClientRect();
     const circleRect = centerCircle.getBoundingClientRect();
