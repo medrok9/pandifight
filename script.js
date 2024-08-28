@@ -64,6 +64,22 @@ function checkCollision() {
     updateHealthBar();
 }
 
+// Example JavaScript functionality
+
+// Log a message on window resize
+window.addEventListener('resize', () => {
+    console.log('Viewport resized');
+});
+
+// Function to perform additional adjustments (if needed)
+function adjustLayout() {
+    // Add any dynamic adjustments here
+}
+
+// Call adjustLayout initially and on resize
+window.addEventListener('load', adjustLayout);
+window.addEventListener('resize', adjustLayout);
+
 // Move the dot based on mouse position
 function moveDot(event) {
     if (!gameStarted || isFlinging) return; // Only move dot if game has started and it's not flinging
