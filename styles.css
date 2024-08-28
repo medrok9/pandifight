@@ -1,6 +1,7 @@
 body {
     margin: 0;
     overflow: hidden;
+    background-image: url("pandi.jpg");
     cursor: none; /* Hide the default cursor */
 }
 
@@ -16,7 +17,6 @@ body {
     left: 50%;
     width: 70px;
     height: 70px;
-    background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     border: 2px solid white;
@@ -48,6 +48,3 @@ body {
     border-radius: 50%;
     pointer-events: none;
 }
-.myImage {
-    background-image: url("pandi.jpg");
-  }
