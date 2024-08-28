@@ -22,7 +22,7 @@ body {
     height: 70px;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    border: 2px solid white;
+    border: 6px solid white;
 }
 
 #health-bar {
