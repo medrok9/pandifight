@@ -1,7 +1,6 @@
 body {
     margin: 0;
     overflow: hidden;
-    background-color: #000;
     cursor: none; /* Hide the default cursor */
 }
 
