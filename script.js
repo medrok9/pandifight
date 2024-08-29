@@ -10,8 +10,8 @@ const gameDuration = 19000; // Game duration: 1 minute 30 seconds in millisecond
 
 let health = 100;
 const maxHealth = 100;
-const healRate = 5; // Heal per 50 ms
-const damageRate = 5; // Damage per 50 ms
+const healRate = 6; // Heal per 50 ms
+const damageRate = 4; // Damage per 50 ms
 
 let gameStarted = false;
 let collisionInterval;
