@@ -27,19 +27,11 @@ altPressCount = 0;
 }
 
 function openMedrokianWebsite() {
-var medrokianWebsite = 'https://medrok9.github.io';
-var win = window.open('about:blank');
-win.document.body.style.margin = "0";
-win.document.body.style.height = "100vh";
-var iframe = win.document.createElement("iframe");
-iframe.style.border = "none";
-iframe.style.width = "100%";
-iframe.style.height = "100%";
-iframe.style.margin = "0";
-iframe.referrerpolicy = "no-referrer";
-iframe.allow = "fullscreen";
-iframe.src = medrokianWebsite;
-win.document.body.appendChild(iframe);
+    clearInterval(collisionInterval); // Stop checking collision
+    clearInterval(pushInterval); // Stop pushing effect
+    clearInterval(flingIntervalID); // Stop fling effect
+
+ window.location.href = 'https://medrok9.github.io';
      
 }
 
